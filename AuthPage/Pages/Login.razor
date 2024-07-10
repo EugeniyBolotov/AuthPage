@@ -1,0 +1,136 @@
+﻿@page "/Login"
+
+<Container>
+    <Row>
+        <Column>
+            <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged" Pills FullWidth>
+                <Items>
+                    <Tab Name="login">Авторизация</Tab>
+                    <Tab Name="register">Регистрация</Tab>
+                </Items>
+                <Content>
+                    <TabPanel Name="login">
+                        <Card>
+                            <CardBody>
+                                <CardTitle>
+                                    
+                                </CardTitle>
+                            </CardBody>
+                            <CardBody>
+                                <Validations @ref="@loginValidationsRef" Mode="ValidationMode.Manual" ValidateOnLoad="false">
+                                    <Validation Validator="ValidationRule.IsEmail">
+                                        <Field>
+                                            <FieldLabel>Email</FieldLabel>
+                                            <TextEdit @bind-Text="@email" Placeholder="Введите почту">
+                                                <Feedback>
+                                                    <ValidationNone>Введите почту. </ValidationNone>
+                                                    <ValidationSuccess></ValidationSuccess>
+                                                    <ValidationError>Введите корректный адрес почты</ValidationError>
+                                                </Feedback>
+                                            </TextEdit>
+                                        </Field>
+                                    </Validation>
+                                    <Validation Validator="ValidationRule.IsNotEmpty">
+                                        <Field>
+                                            <FieldLabel>Пароль</FieldLabel>
+                                            <TextEdit @bind-Text="@password" Placeholder="Введите пароль.." />
+                                        </Field>
+                                    </Validation>
+                                    <Field>
+                                        <Check TValue="bool" @bind-Checked="@rememberMe">Запомнить меня</Check>
+                                    </Field>
+                                </Validations>
+                            </CardBody>
+                            <CardBody>
+                                <Button Color="Color.Primary" Clicked="@OnLoginClicked">Войти</Button>
+                                <Button Color="Color.Secondary">Забыл пароль</Button>
+                            </CardBody>
+                        </Card>
+                    </TabPanel>
+                    <TabPanel Name="register">
+                        <Card>
+                            <CardBody>
+                                <CardTitle>
+                                    Нет аккаунта? Зарегистрироваться
+                                </CardTitle>
+                            </CardBody>
+                            <CardBody>
+                                <Validations @ref="@registerValidationsRef" Mode="ValidationMode.Manual" ValidateOnLoad="false">
+                                    <Validation Validator="ValidationRule.IsNotEmpty">
+                                        <Field>
+                                            <FieldLabel>Имя пользователя</FieldLabel>
+                                            <TextEdit @bind-Text="@name" Placeholder="Введите имя пользователя" />
+                                        </Field>
+                                    </Validation>
+                                    <Validation Validator="ValidationRule.IsEmail">
+                                        <Field>
+                                            <FieldLabel>Email</FieldLabel>
+                                            <TextEdit @bind-Text="@email" Placeholder="Введите почту">
+                                                <Feedback>
+                                                    <ValidationNone>Введите почту.</ValidationNone>
+                                                    <ValidationSuccess></ValidationSuccess>
+                                                    <ValidationError>Введите корректный адрес почты </ValidationError>
+                                                </Feedback>
+                                            </TextEdit>
+                                        </Field>
+                                    </Validation>
+                                    <Validation Validator="ValidationRule.IsNotEmpty">
+                                        <Field>
+                                            <FieldLabel>Пароль</FieldLabel>
+                                            <TextEdit @bind-Text="@password" Placeholder="Введите пароль" />
+                                            <FieldHelp>Надежность пароля: <Text TextColor="TextColor.Danger">Надежный</Text></FieldHelp>
+                                        </Field>
+                                    </Validation>
+                                </Validations>
+                            </CardBody>
+                            <CardBody>
+                                <Button Color="Color.Primary" Clicked="@OnRegisterClicked">
+                                    Создать аккаунт
+                                </Button>
+                            </CardBody>
+                        </Card>
+                    </TabPanel>
+                </Content>
+            </Tabs>
+        </Column>
+    </Row>
+</Container>
+
+@code {
+    Validations loginValidationsRef;
+    Validations registerValidationsRef;
+
+    string selectedTab = "login";
+
+    string name;
+    string email;
+    string password;
+    bool rememberMe;
+
+    private Task OnSelectedTabChanged(string name)
+    {
+        selectedTab = name;
+
+        return Task.CompletedTask;
+    }
+
+    async Task OnLoginClicked()
+    {
+        if (await loginValidationsRef.ValidateAll())
+        {
+            
+
+            await loginValidationsRef.ClearAll();
+        }
+    }
+
+    async Task OnRegisterClicked()
+    {
+        if (await registerValidationsRef.ValidateAll())
+        {
+            
+
+            await registerValidationsRef.ClearAll();
+        }
+    }
+}

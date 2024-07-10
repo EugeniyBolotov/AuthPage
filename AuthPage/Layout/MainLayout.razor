@@ -1,0 +1,36 @@
+﻿@inject IJSRuntime JS
+@inherits LayoutComponentBase
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+            
+        </article>
+    </main>
+</div>
+
+@code {
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js");
+            //module = await JS.InvokeAsync<IJSObjectReference>("import", "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js");
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.Message);
+            throw;
+        }
+    }
+}

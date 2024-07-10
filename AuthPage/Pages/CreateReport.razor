@@ -1,0 +1,80 @@
+﻿@page "/create-report";
+@using Blazorise.Components;
+@using AuthPage.Models;
+
+
+    <Column>
+        <Validations @ref="@ValidationsRef" Mode="ValidationMode.Manual" Model="@createReportModel" ValidateOnLoad="false">
+        <Fields>
+
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsHalf">
+                    <FieldLabel>Date of Birth</FieldLabel>
+                    <FieldBody>
+                        <DateEdit @bind-Date="@createReportModel.inspectionDate">
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </DateEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsHalf">
+                    <FieldLabel>Gender</FieldLabel>
+                    <FieldBody>
+                        <Select @bind-SelectedValue="@createReportModel.inspector">
+                            <ChildContent>
+                                <SelectItem TValue="string"></SelectItem>
+                                @foreach (var g in UserPicker.GetInspectors())
+                                {
+                                    <SelectItem TValue="int" Value="@g.id">@g.fullName</SelectItem>
+                                }
+                            </ChildContent>
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+        <Fields>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsHalf">
+                    <FieldLabel>Date of Birth</FieldLabel>
+                    <FieldBody>
+                        <RichTextEdit @bind-Text="@createReportModel.workspaceComment">
+
+                        </RichTextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+        </Validations>
+        <Button Color="Color.Primary" Clicked="@OnSaveClicked" >
+            Validate and Submit
+        </Button>
+    </Column>
+
+
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    Validations ValidationsRef { get; set; }
+
+    CreateReportModel createReportModel { get; set; } = new CreateReportModel();
+
+    async Task OnSaveClicked()
+    {
+        if (await ValidationsRef.ValidateAll())
+        {
+            await MessageService.Info("Thank you for filling the form.");
+
+            await ValidationsRef.ClearAll();
+        }
+    }
+
+    int selectedListValue = 0;
+}
+

@@ -12,5 +12,6 @@
             IEnumerable<UserPicker> IndexedUsers = Enumerable.Range(1, Countries.Length).Select(x => new UserPicker { fullName = Countries[x - 1], id = x });
             return IndexedUsers;
         }
+
     }
 }

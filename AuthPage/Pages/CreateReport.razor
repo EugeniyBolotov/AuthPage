@@ -8,8 +8,8 @@
         <Fields>
 
             <Validation>
-                <Field ColumnSize="ColumnSize.IsHalf">
-                    <FieldLabel>Date of Birth</FieldLabel>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Дата проверки</FieldLabel>
                     <FieldBody>
                         <DateEdit @bind-Date="@createReportModel.inspectionDate">
                             <Feedback>
@@ -20,8 +20,125 @@
                 </Field>
             </Validation>
             <Validation>
-                <Field ColumnSize="ColumnSize.IsHalf">
-                    <FieldLabel>Gender</FieldLabel>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Проверяющий</FieldLabel>
+                    <FieldBody>
+                        <Select @bind-SelectedValue="@createReportModel.inspector">
+                            <ChildContent>
+                                <SelectItem TValue="string"></SelectItem>
+                                @foreach (var g in UserPicker.GetInspectors())
+                                {
+                                    <SelectItem TValue="int" Value="@g.id">@g.fullName</SelectItem>
+                                }
+                            </ChildContent>
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </Select>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Рабочее место</FieldLabel>
+                    <FieldBody>
+                        <MemoEdit @bind-Text="@createReportModel.workspaceComment">
+
+                        </MemoEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+        <Fields>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Номер наряда</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@createReportModel.dutyNumber">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Описание работ</FieldLabel>
+                    <FieldBody>
+                        <MemoEdit @bind-Text="@createReportModel.workDescription">
+
+                        </MemoEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Описание нарушения</FieldLabel>
+                    <FieldBody>
+                        <MemoEdit @bind-Text="@createReportModel.violiationDescription">
+
+                        </MemoEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+        <Fields>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Срок выполнения КД</FieldLabel>
+                    <FieldBody>
+                        <DateEdit @bind-Date="@createReportModel.executionPeriod">
+                            <Feedback>
+                                <ValidationError />
+                            </Feedback>
+                        </DateEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Устранение нарушения на рабочем месте</FieldLabel>
+                    <FieldBody>
+                        <Check @bind-Checked="@createReportModel.isVioliationEliminated">
+
+                        </Check>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Причина нарушения</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@createReportModel.violationReason">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+        <Fields>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Устранение нарушения на рабочем месте</FieldLabel>
+                    <FieldBody>
+                        <MemoEdit @bind-Checked="@createReportModel.correctionDescription">
+
+                        </MemoEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Устранение нарушения на рабочем месте</FieldLabel>
+                    <FieldBody>
+                        <MemoEdit @bind-Checked="@createReportModel.correctionResponsible">
+
+                        </MemoEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird"  >
+                    <FieldLabel>Статус выполнения КД</FieldLabel>
                     <FieldBody>
                         <Select @bind-SelectedValue="@createReportModel.inspector">
                             <ChildContent>
@@ -39,21 +156,9 @@
                 </Field>
             </Validation>
         </Fields>
-        <Fields>
-            <Validation>
-                <Field ColumnSize="ColumnSize.IsHalf">
-                    <FieldLabel>Date of Birth</FieldLabel>
-                    <FieldBody>
-                        <RichTextEdit @bind-Text="@createReportModel.workspaceComment">
-
-                        </RichTextEdit>
-                    </FieldBody>
-                </Field>
-            </Validation>
-        </Fields>
         </Validations>
-        <Button Color="Color.Primary" Clicked="@OnSaveClicked" >
-            Validate and Submit
+        <Button Color="Color.Primary" Clicked="@OnSaveClicked" Margin="Margin.Is4">
+            Сохранить
         </Button>
     </Column>
 

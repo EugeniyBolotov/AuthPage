@@ -10,6 +10,7 @@
         public string violiationDescription { get; set; }
         public DateTime? executionPeriod { get; set; }
         public bool isVioliationEliminated { get; set; }
+        public string violationReason { get; set; }
         public string correctionDescription { get; set; }
         public string correctionResponsible {  get; set; }
         public int correctionStatus { get; set; }

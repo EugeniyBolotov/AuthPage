@@ -1,0 +1,82 @@
+﻿@page "/AddUser";
+@using AuthPage.Models
+<h3>Добавить пользоателя</h3>
+<Column>
+    <Validations @ref="@ValidationsRef" Mode="ValidationMode.Manual" Model="@addUserModel" ValidateOnLoad="false">
+        <Fields>
+
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird">
+                    <FieldLabel>Фамилия</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@addUserModel.FirstName">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird">
+                    <FieldLabel>Имя</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@addUserModel.Name">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsThird">
+                    <FieldLabel>Отчество</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@addUserModel.LastName">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+        <Fields>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsHalf">
+                    <FieldLabel>Почта</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@addUserModel.Email">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+            <Validation>
+                <Field ColumnSize="ColumnSize.IsHalf">
+                    <FieldLabel>Логин</FieldLabel>
+                    <FieldBody>
+                        <TextEdit @bind-Text="@addUserModel.Login">
+
+                        </TextEdit>
+                    </FieldBody>
+                </Field>
+            </Validation>
+        </Fields>
+    </Validations>
+</Column>
+<Button Color="Color.Primary" Clicked="@OnSaveClicked" Margin="Margin.Is4">
+    Сохранить
+</Button>
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    Validations ValidationsRef { get; set; }
+
+    AddUserModel addUserModel { get; set; } = new AddUserModel();
+
+    async Task OnSaveClicked()
+    {
+        if (await ValidationsRef.ValidateAll())
+        {
+            await MessageService.Info("Thank you for filling the form.");
+
+            await ValidationsRef.ClearAll();
+        }
+    }
+}

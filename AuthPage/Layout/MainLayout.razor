@@ -1,5 +1,8 @@
 ﻿@inject IJSRuntime JS
+@inject AuthPage.Abstractions.IAuthenticationService AuthenticationService
 @inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -19,13 +22,13 @@
 
 @code {
     private IJSObjectReference? module;
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
         {
             module = await JS.InvokeAsync<IJSObjectReference>("import", "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js");
-            //module = await JS.InvokeAsync<IJSObjectReference>("import", "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js");
         }
         catch (Exception ex)
         {

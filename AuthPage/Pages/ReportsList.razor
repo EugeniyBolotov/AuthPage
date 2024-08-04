@@ -1,0 +1,99 @@
+﻿@page "/Reports"
+@using AuthPage.Models
+<Table Hoverable >
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>Редактировать</TableHeaderCell>
+            <TableHeaderCell>Копировать</TableHeaderCell>
+            <TableHeaderCell>Удалить</TableHeaderCell>
+            <TableHeaderCell>Дата проверки</TableHeaderCell>
+            <TableHeaderCell>ФИО проверяющего</TableHeaderCell>
+            <TableHeaderCell>Компания</TableHeaderCell>
+            <TableHeaderCell>Рабочее место</TableHeaderCell>
+            <TableHeaderCell>Номер наряда</TableHeaderCell>
+            <TableHeaderCell>Типология нарушений</TableHeaderCell>
+            <TableHeaderCell>Руководитель</TableHeaderCell>
+            <TableHeaderCell>Производитель</TableHeaderCell>
+            <TableHeaderCell>Описание работ</TableHeaderCell>
+            <TableHeaderCell>Описание нарушения</TableHeaderCell>
+            <TableHeaderCell>Описание КД</TableHeaderCell>
+            <TableHeaderCell>Устранение нарушения</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach(ReportModel reportModel in reportsList.reports)
+        {
+            <TableRow @key="reportModel.id">
+                <TableRowHeader>@reportModel.id</TableRowHeader>
+                <TableRowCell >
+                    <Button onclick="() => OnUpdateClicked(reportModel)">
+                        <Image Source="images/update-pen-icon.png"></Image>
+                    </Button>
+                </TableRowCell>
+                <TableRowCell>
+                    <Button onclick="() => OnDeleteClicked(reportModel)">
+                        <Image Source="images/copy-icon.png"></Image>
+                    </Button>
+                </TableRowCell>
+                <TableRowCell>
+                    <Button onclick="() => OnDeleteClicked(reportModel)">
+                        <Image Source="images/delete-icon.png"></Image>
+                    </Button>
+                </TableRowCell>
+                <TableRowHeader>@Convert.ToDateTime(reportModel.inspectionDate).ToString("dd.MM.hhhh")</TableRowHeader>
+                <TableRowHeader>@reportModel.inspector.fullName</TableRowHeader>
+                <TableRowHeader>company</TableRowHeader>
+                <TableRowHeader>@reportModel.workspaceComment</TableRowHeader>
+                <TableRowHeader>@reportModel.dutyNumber</TableRowHeader>
+                <TableRowHeader>typology</TableRowHeader>
+                <TableRowHeader>@reportModel.correctionResponsible</TableRowHeader>
+                <TableRowHeader>worker</TableRowHeader>
+                <TableRowHeader>@reportModel.workDescription</TableRowHeader>
+                <TableRowHeader>@reportModel.violiationDescription</TableRowHeader>
+                <TableRowHeader>@reportModel.correctionDescription</TableRowHeader>
+                <TableRowHeader>
+                    <Check @bind-Checked="@reportModel.isVioliationEliminated"></Check>
+                </TableRowHeader>
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+@code {
+    ReportListModel reportsList { get; set; } = new ReportListModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        for (int i = 0; i < 15; i++)
+        {
+            reportsList.reports.Add(new ReportModel
+                {
+                    id = i,
+                    inspectionDate = DateTime.Today,
+                    workspaceComment = "fgdsbng klfdsbgk jdsbngfkjnds gfkjndsklj gndfskjlngk sdjngfjkds fngkjd sfn gkjdsfg ndls fk",
+                    dutyNumber = "100-11-41",
+                    correctionResponsible = "dasdsa dsad asdas",
+                    workDescription = "dasdwd awd awdadw awd awdawdwa daw",
+                    violiationDescription = "dasdasdawd a wd aw daw  ddd",
+                    correctionDescription = "dsada wdasd wdasdawd dsad",
+                    isVioliationEliminated = true
+                });
+        }
+       
+        reportsList.reports.ForEach(x => x.inspector = new UserPicker { id = 0, fullName = "dsa dasd sadasdsa", name = "dsadsad" });
+
+    }
+
+    async Task OnDeleteClicked(ReportModel report)
+    {
+        
+    }
+    async Task OnUpdateClicked(ReportModel report)
+    {
+
+    }
+    async Task OnCopyClicked(ReportModel report)
+    {
+
+    }
+}

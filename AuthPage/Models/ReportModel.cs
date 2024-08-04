@@ -1,7 +1,8 @@
 ﻿namespace AuthPage.Models
 {
-    public class CreateReportModel
+    public class ReportModel
     {
+        public int id { get; set; }
         public DateTime? inspectionDate { get; set; }
         public UserPicker inspector { get; set; }
         public string workspaceComment { get; set; }

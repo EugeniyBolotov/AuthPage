@@ -1,13 +1,14 @@
 ﻿@page "/SaftyChart"
 @using AuthPage.Abstractions
+@using AuthPage.Models
   <Column>
     <PieChart @ref="pieChart" TItem="double" Clicked="@OnClicked" />
 
 </Column>
 @code {
-    IChartCreator chartCreator = new SaftyChartCreator();
+    IChartCreator chartCreator { get; set; } = new SaftyChartCreator();
 
-    PieChart<double> pieChart = new PieChart<double>();
+    PieChart<double> pieChart { get; set; } = new PieChart<double>();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -16,19 +17,24 @@
             await HandleRedraw();
         }
     }
-    
+
     async Task HandleRedraw()
     {
+        chartCreator = new SaftyChartCreator();
+
         await pieChart.Clear();
 
-        pieChart = await chartCreator.InitializeChart();
+        IEnumerable<AppChartModel> appChartModel = await chartCreator.LoadData();
+
+        await pieChart.AddLabelsDatasetsAndUpdate(appChartModel.Select(x => x.label).ToArray(), chartCreator.GetChartDataset(appChartModel));// = await chartCreator.InitializeChart();
     }
+
 
     Task OnClicked(ChartMouseEventArgs e)
     {
         var model = e.Model as BarChartModel;
 
-        //Console.WriteLine($"Handling event for {nameof(BarChartModel)}: x:{model.X} y:{model.Y}");
+        
         return Task.CompletedTask;
     }
 }

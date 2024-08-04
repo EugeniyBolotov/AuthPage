@@ -7,8 +7,8 @@ namespace AuthPage.Implemenatations
 {
     public class SaftyChartCreator : IChartCreator
     {
-        PieChart<double> pieChart;
-        IHttpService httpService;
+        PieChart<double> pieChart { get; set; }
+        IHttpService httpService { get; set; }
         public async Task<PieChart<double>> InitializeChart()
         {
             pieChart = new PieChart<double>();

@@ -1,11 +1,42 @@
 ﻿@page "/Reports"
 @using AuthPage.Models
-<Table Hoverable >
+
+<DataGrid TItem="ReportModel" Data="@reportsList.reports" Sortable="true" ShowPager="true" Editable="true" Filterable="true">
+    <DataGridCommandColumn TItem="ReportModel" Caption="Редактировать">
+        <EditCommandTemplate>
+            <Button Width="Width.Px(30)" Height="Height.Px(30)" Padding="Padding.Is0" Color="Color.Success" Clicked="@context.Clicked">
+                <Image Width="Width.Px(25)" Height="Height.Px(25)" Source="/images/update-pen-icon.png"></Image>
+            </Button>
+        </EditCommandTemplate>
+        <DeleteCommandTemplate>
+            <Button Width="Width.Px(30)" Height="Height.Px(30)" Padding="Padding.Is0" VerticalAlignment="VerticalAlignment.Middle" Color="Color.Danger" Clicked="@context.Clicked">
+                <Image Width="Width.Px(25)" w Height="Height.Px(25)" Source="/images/delete-icon.png"></Image>
+            </Button>
+        </DeleteCommandTemplate>
+    </DataGridCommandColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.inspectionDate)" Caption="Дата проверки"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.inspector.fullName)" Caption="ФИО проверяющего"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.company)" Caption="Компания"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.workspaceComment)" Caption="Рабочее место"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.dutyNumber)" Caption="Номер наряда"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.typology)" Caption="Типология нарушений"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.correctionResponsible)" Caption="Руководитель"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.manufacturer)" Caption="Производитель"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.workDescription)" Caption="Описание работ"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.violationReason)" Caption="Описание нарушения"></DataGridColumn>
+    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.correctionDescription)" Caption="Описание КД"></DataGridColumn>
+    <DataGridCheckColumn TItem="ReportModel" Field="@nameof(ReportModel.isVioliationEliminated)" Caption="Устранение нарушения">
+        <DisplayTemplate>
+            <Check TValue="bool" Checked="context.isVioliationEliminated" Disabled="true" />
+        </DisplayTemplate>
+    </DataGridCheckColumn>
+
+</DataGrid>
+@* <Table Hoverable FixedHeader FixedHeaderTableHeight="200px" >
     <TableHeader>
         <TableRow>
             <TableHeaderCell>#</TableHeaderCell>
             <TableHeaderCell>Редактировать</TableHeaderCell>
-            <TableHeaderCell>Копировать</TableHeaderCell>
             <TableHeaderCell>Удалить</TableHeaderCell>
             <TableHeaderCell>Дата проверки</TableHeaderCell>
             <TableHeaderCell>ФИО проверяющего</TableHeaderCell>
@@ -21,49 +52,45 @@
             <TableHeaderCell>Устранение нарушения</TableHeaderCell>
         </TableRow>
     </TableHeader>
-    <TableBody>
+    <TableBody Height="Height.Is75" Overflow="Overflow.Scroll">
         @foreach(ReportModel reportModel in reportsList.reports)
         {
             <TableRow @key="reportModel.id">
                 <TableRowHeader>@reportModel.id</TableRowHeader>
-                <TableRowCell >
-                    <Button onclick="() => OnUpdateClicked(reportModel)">
-                        <Image Source="images/update-pen-icon.png"></Image>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
+                    <Button Width="Width.Px(30)" Height="Height.Px(30)" Padding="Padding.Is0" Color="Color.Success" onclick="() => OnUpdateClicked(reportModel)">
+                        <Image Width="Width.Px(25)" Height="Height.Px(25)" Source="/images/update-pen-icon.png"></Image>
+                    </Button> 
+                </TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
+                    <Button Width="Width.Px(30)" Height="Height.Px(30)" Padding="Padding.Is0" VerticalAlignment="VerticalAlignment.Middle" Color="Color.Danger" onclick="() => OnDeleteClicked(reportModel)">
+                        <Image Width="Width.Px(25)" w Height="Height.Px(25)" Source="/images/delete-icon.png"></Image>
                     </Button>
                 </TableRowCell>
-                <TableRowCell>
-                    <Button onclick="() => OnDeleteClicked(reportModel)">
-                        <Image Source="images/copy-icon.png"></Image>
-                    </Button>
-                </TableRowCell>
-                <TableRowCell>
-                    <Button onclick="() => OnDeleteClicked(reportModel)">
-                        <Image Source="images/delete-icon.png"></Image>
-                    </Button>
-                </TableRowCell>
-                <TableRowHeader>@Convert.ToDateTime(reportModel.inspectionDate).ToString("dd.MM.hhhh")</TableRowHeader>
-                <TableRowHeader>@reportModel.inspector.fullName</TableRowHeader>
-                <TableRowHeader>company</TableRowHeader>
-                <TableRowHeader>@reportModel.workspaceComment</TableRowHeader>
-                <TableRowHeader>@reportModel.dutyNumber</TableRowHeader>
-                <TableRowHeader>typology</TableRowHeader>
-                <TableRowHeader>@reportModel.correctionResponsible</TableRowHeader>
-                <TableRowHeader>worker</TableRowHeader>
-                <TableRowHeader>@reportModel.workDescription</TableRowHeader>
-                <TableRowHeader>@reportModel.violiationDescription</TableRowHeader>
-                <TableRowHeader>@reportModel.correctionDescription</TableRowHeader>
-                <TableRowHeader>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@Convert.ToDateTime(reportModel.inspectionDate).ToString("dd.MM.hhhh")</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.inspector.fullName</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">company</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.workspaceComment</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.dutyNumber</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">typology</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.correctionResponsible</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">worker</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.workDescription</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.violiationDescription</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">@reportModel.correctionDescription</TableRowCell>
+                <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
                     <Check @bind-Checked="@reportModel.isVioliationEliminated"></Check>
-                </TableRowHeader>
+                </TableRowCell>
             </TableRow>
         }
     </TableBody>
-</Table>
+</Table> *@
 @code {
     ReportListModel reportsList { get; set; } = new ReportListModel();
 
     protected override async Task OnInitializedAsync()
     {
+        UserPicker ss = new UserPicker { id = 0, fullName = "dsa dasd sadasdsa", name = "dsadsad" };
         for (int i = 0; i < 15; i++)
         {
             reportsList.reports.Add(new ReportModel
@@ -76,11 +103,13 @@
                     workDescription = "dasdwd awd awdadw awd awdawdwa daw",
                     violiationDescription = "dasdasdawd a wd aw daw  ddd",
                     correctionDescription = "dsada wdasd wdasdawd dsad",
-                    isVioliationEliminated = true
+                    isVioliationEliminated = true,
+                    manufacturer = "asdwq dwqd",
+                    company = "Sdasd asd",
+                    typology = "321da 22d dd",
+                    inspector = ss
                 });
         }
-       
-        reportsList.reports.ForEach(x => x.inspector = new UserPicker { id = 0, fullName = "dsa dasd sadasdsa", name = "dsadsad" });
 
     }
 

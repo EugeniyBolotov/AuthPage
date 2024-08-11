@@ -8,6 +8,9 @@
         public string workspaceComment { get; set; }
         public string dutyNumber { get; set; }
         public string workDescription { get; set; }
+        public string company { get; set; }
+        public string typology { get; set; }
+        public string manufacturer { get; set; }
         public string violiationDescription { get; set; }
         public DateTime? executionPeriod { get; set; }
         public bool isVioliationEliminated { get; set; }

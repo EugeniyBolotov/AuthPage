@@ -1,4 +1,5 @@
 ﻿@page "/Reports"
+@using AuthPage.CustomTemplates
 @using AuthPage.Models
 
 <DataGrid TItem="ReportModel" Data="@reportsList.reports" Sortable="true" ShowPager="true" Editable="true" Filterable="true">
@@ -14,18 +15,23 @@
             </Button>
         </DeleteCommandTemplate>
     </DataGridCommandColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.inspectionDate)" Caption="Дата проверки"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.inspector.fullName)" Caption="ФИО проверяющего"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.company)" Caption="Компания"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.workspaceComment)" Caption="Рабочее место"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.dutyNumber)" Caption="Номер наряда"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.typology)" Caption="Типология нарушений"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.correctionResponsible)" Caption="Руководитель"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.manufacturer)" Caption="Производитель"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.workDescription)" Caption="Описание работ"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.violationReason)" Caption="Описание нарушения"></DataGridColumn>
-    <DataGridColumn TItem="ReportModel" Field="@nameof(ReportModel.correctionDescription)" Caption="Описание КД"></DataGridColumn>
-    <DataGridCheckColumn TItem="ReportModel" Field="@nameof(ReportModel.isVioliationEliminated)" Caption="Устранение нарушения">
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.inspectionDate)" Caption="Дата проверки"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel">
+        <DisplayTemplate>
+                @context.inspector.fullName
+        </DisplayTemplate>
+        <CaptionTemplate>ФИО проверяющего</CaptionTemplate>
+    </DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.company)" Caption="Компания"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.workspaceComment)" Caption="Рабочее место"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.dutyNumber)" Caption="Номер наряда"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.typology)" Caption="Типология нарушений"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.correctionResponsible)" Caption="Руководитель"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.manufacturer)" Caption="Производитель"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.workDescription)" Caption="Описание работ"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.violiationDescription)" Caption="Описание нарушения"></DataGridColumn>
+    <DataGridColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.correctionDescription)" Caption="Описание КД"></DataGridColumn>
+    <DataGridCheckColumn Editable TItem="ReportModel" Field="@nameof(ReportModel.isVioliationEliminated)" Caption="Устранение нарушения">
         <DisplayTemplate>
             <Check TValue="bool" Checked="context.isVioliationEliminated" Disabled="true" />
         </DisplayTemplate>
@@ -60,7 +66,7 @@
                 <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
                     <Button Width="Width.Px(30)" Height="Height.Px(30)" Padding="Padding.Is0" Color="Color.Success" onclick="() => OnUpdateClicked(reportModel)">
                         <Image Width="Width.Px(25)" Height="Height.Px(25)" Source="/images/update-pen-icon.png"></Image>
-                    </Button> 
+                    </Button>
                 </TableRowCell>
                 <TableRowCell VerticalAlignment="VerticalAlignment.Middle">
                     <Button Width="Width.Px(30)" Height="Height.Px(30)" Padding="Padding.Is0" VerticalAlignment="VerticalAlignment.Middle" Color="Color.Danger" onclick="() => OnDeleteClicked(reportModel)">
@@ -115,7 +121,7 @@
 
     async Task OnDeleteClicked(ReportModel report)
     {
-        
+
     }
     async Task OnUpdateClicked(ReportModel report)
     {

@@ -18,5 +18,10 @@
         public string correctionDescription { get; set; }
         public string correctionResponsible {  get; set; }
         public int correctionStatus { get; set; }
+
+        public string GetInspectorFullName()
+        {
+            return inspector.fullName;
+        }
     }
 }
